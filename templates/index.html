@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Slaf vs Cooley - Home</title>
+    <style>
+        .fa-circle {
+            color: #6C757D; /* Change the color to grey */
+        }
+
+        p {
+            font-size: 20px; /* Adjust the font size as needed */
+        }
+        .puck {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: black;
+    z-index: 9999;
+    transition: transform 1s ease-in-out, opacity 1s ease-in-out;
+}
+
+
+
+@keyframes puckAnimation {
+    0% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(-100px);
+        opacity: 0;
+    }
+}
+    </style>
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css" />
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css" />
+    <link href="\static\css\styles.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+</head>
+
+<body>
+    <section>
+        <div class="container">
+            <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
+                <a href="/" class="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none">
+                    <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap"><use xlink:href="#bootstrap"></use></svg>
+                </a>
+                <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+                    <li><a href="" class="nav-link px-2 link-secondary">Home</a></li>
+                    <li><a href="{{ url_for('about') }}" class="nav-link px-2 link-dark">About</a></li>
+                    <li><a href="{{ url_for('contact') }}" class="nav-link px-2 link-dark">Contact</a></li>
+                </ul>
+                <div class="col-md-3 text-end" style="display: flex; align-items: center; justify-content: flex-end;">
+                    {% if logged_in_username %}
+                    <span style="margin-right:10px;">Welcome, <strong>{{ logged_in_username }}</strong>!</span>
+                    <a href="{{ url_for('logout') }}" class="btn btn-danger">Logout</a>
+                    {% else %}
+                    <a href="{{ url_for('login') }}" type="button" class="btn btn-light">Login</a>
+                    <a href="{{ url_for('signup') }}" class="btn btn-dark">Sign-up</a>
+                    {% endif %}
+                </div>
+            </header>
+        </div>
+
+        <section class="bg-accent bg-position-center bg-size-cover py-5 py-sm-7" style="background-image: url('../static/assets/img/background.jpg');">
+            <div class="container py-5">
+                <div class="row pt-md-5 pb-lg-5 justify-content-center">
+                    <!-- Left container -->
+                    <div class="col-md-3">
+                        <img src="\static\assets\img\SlafPNG1.png" class="center-block" alt="Left Image" style="width: 70%;">
+                    </div>
+                    <!-- Middle container -->
+                    <div class="col-md-6 text-center py-xl-3">
+                        <h1 class="text-light pb-sm-3">Slaf vs. Cooley<br>2022 NHL draftees comparison<span class="fw-light"></span></h1>
+                    </div>
+                    <!-- Right container -->
+                    <div class="col-md-3">
+                        <img src="\static\assets\img\CooleyPNG1.png" alt="Right Image" class="center-block" style="width: 70%">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="pb-5 border-bottom">
+            <div class="container">
+                <div class="row">
+                    <!-- Left image -->
+                    <div class="col text-center">
+                        <h2><br>Juraj Slafkovský</h2>
+                        <p><br>GP: {{ Slaf_season_games }}<br>G: {{ Slaf_season_goals }}<br>A: {{ Slaf_season_assists }}<br>P: {{ Slaf_points }}<br>+-: {{ Slaf_season_plusminus }}</p>
+                        <a href="https://www.eliteprospects.com/player/527423/juraj-slafkovsky" class="btn btn-secondary">More Juraj stats</a>
+                    </div>
+                    <!-- Middle text -->
+                    <div class="col text-center">
+                        <h2><br>2023/2024 Season Stats</h2>
+                        <br><br><br>
+                        <p id="comparison_result"></p>
+                    </div>
+                    <!-- Right image -->
+                    <div class="col text-center">
+                        <h2><br>Logan Cooley</h2>
+                        <p><br>GP: {{ LC_season_games }}<br>G: {{ LC_season_goals }}<br>A: {{ LC_season_assists }}<br>P: {{ LC_points }}<br>+-: {{ LC_season_plusminus }}</p>
+                        <a href="https://www.eliteprospects.com/player/651538/logan-cooley" class="btn btn-secondary">More Logan stats</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <section class="pb-5 pt-5">
+
+    <div class="container mt-4">
+        <!-- Fan Zone Title -->
+        <div class="row justify-content-center mb-4">
+            <div class="col-md-8">
+                <h2 class="text-center mb-4">Fan Zone</h2>
+                <p class="text-center">Welcome to the Fan Zone! This is the ultimate space dedicated to our passionate fans. Whether you're here to cheer for Juraj Slafkovský, Logan Cooley, or simply love the thrill of NHL drafts, this is your community.</p>
+                <p class="text-center">In the Fan Zone, you can engage with fellow fans, share your thoughts, and stay updated with the latest statistics. You can also cheer for your favorite player by clicking the cheers buttons below!</p>
+                <p class="text-center">So, grab your favorite jersey, get comfortable, and immerse yourself in the excitement of the game. Your opinion matters here, so don't be afraid to share it in the comment section !</p>
+            </div>
+
+        </div>
+
+        <!-- Cheering Content -->
+        <div class="row justify-content-center">
+            <!-- Left cheer -->
+            <div class="col-md-4 text-center">
+                <div class="cheer-info">
+                    <span class="cheer-count" id="slafCount">{{ get_cheer_count('Slaf') }}</span> Cheers for Slaf
+                </div>
+                <button class="btn btn-secondary cheer-btn" data-player="Slaf">Cheer for Slaf</button>
+                <div class="puck-container" id="slafPuckContainer"></div>
+            </div>
+
+            <!-- Middle empty div -->
+            <div class="col-md-4"></div>
+
+            <!-- Right cheer -->
+            <div class="col-md-4 text-center">
+                <div class="cheer-info">
+                    <span class="cheer-count" id="cooleyCount">{{ get_cheer_count('Cooley') }}</span> Cheers for Cooley
+                </div>
+                <button class="btn btn-secondary cheer-btn" data-player="Cooley">Cheer for Cooley</button>
+                <div class="puck-container" id="cooleyPuckContainer"></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="pb-5">
+        <section class="py-5">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-md-8">
+    {% if logged_in_username %}
+    <form action="/add_comment" method="post">
+        <div class="mb-3">
+            <label for="comment" class="form-label">Comment</label>
+            <textarea class="form-control" id="comment" name="comment" rows="3" required></textarea>
+        </div>
+        <button type="submit" class="btn btn-secondary">Submit</button>
+    </form>
+    {% else %}
+    <p class="text-center">You need to <a href="{{ url_for('login') }}">log in</a> to leave a comment.</p>
+    {% endif %}
+
+    <h2 class="text-center mt-5">Comment section</h2>
+    <div class="comments">
+        {% for comment in comments|reverse %}
+        <div class="comment">
+            <strong>{{ comment.username }}</strong><br>
+            {{ comment.comment }}
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+</section>
+
+
+
+        <footer class="border-top">
+            <div class="container px-4 px-lg-5">
+                <div class="row gx-4 gx-lg-5 justify-content-center">
+                    <div class="col-md-10 col-lg-8 col-xl-7">
+                        <ul class="list-inline text-center">
+                            <br><br>
+                            <li class="list-inline-item">
+                                <a href="https://www.linkedin.com/in/jakubhajduk/">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fas fa-circle fa-stack-2x"></i>
+                                        <i class="fab fa-linkedin fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a>
+                            </li>
+                            <li class="list-inline-item">
+                                <a href="https://www.facebook.com/kubo.hajduk/">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fas fa-circle fa-stack-2x"></i>
+                                        <i class="fab fa-facebook-f fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a>
+                            </li>
+                            <li class="list-inline-item">
+                                <a href="https://github.com/JakubCoding">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fas fa-circle fa-stack-2x"></i>
+                                        <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a>
+                            </li>
+                        </ul>
+                        <div class="small text-center text-muted fst-italic">© All rights reserved. Made with <span class="text-danger">❤</span> by <a class="nav-link d-inline fw-normal p-0 text-muted" href="https://github.com/JakubCoding" target="_blank" rel="noopener">Jakub</a></div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+          <script>
+        // Get Slaf_points and LC_points from Flask template
+        var slafPoints = {{ Slaf_points }};
+        var lcPoints = {{ LC_points }};
+
+        // Calculate difference
+        var difference = Math.abs(slafPoints - lcPoints);
+
+        // Display difference
+        document.getElementById("comparison_result").innerText = "Difference in points: " + difference;
+
+        // Compare points and display result
+        if (slafPoints > lcPoints) {
+            document.getElementById("comparison_result").innerText += "\nJuraj has currently more points.";
+        } else if (slafPoints < lcPoints) {
+            document.getElementById("comparison_result").innerText += "\nLogan has more points.";
+        } else {
+            document.getElementById("comparison_result").innerText += "\nBoth have the same points. Cuties.";
+        }
+    </script>
+        <script>
+document.addEventListener('DOMContentLoaded', () => {
+    const buttons = document.querySelectorAll('.cheer-btn');
+    const cheerCounts = document.querySelectorAll('.cheer-count');
+
+    // Function to fetch and update cheer counts
+    const updateCheerCounts = () => {
+        fetch('/get_cheer_counts')
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                cheerCounts.forEach(element => {
+                    const player = element.getAttribute('data-player');
+                    element.textContent = data.cheer_counts[player] || 0;
+                });
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    };
+
+    // Update cheer counts when the page loads
+    updateCheerCounts();
+
+    buttons.forEach(button => {
+        button.addEventListener('click', (event) => {
+            const player = button.getAttribute('data-player');
+            const cheerCountElement = button.previousElementSibling.querySelector('.cheer-count');
+
+            fetch('/cheer', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ player: player }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    cheerCountElement.textContent = data.cheer_count;
+
+                    // Create and animate the puck
+                    const puck = document.createElement('div');
+                    puck.classList.add('puck');
+
+                    const rect = button.getBoundingClientRect();
+                    const offsetX = event.clientX - rect.left;
+                    const offsetY = event.clientY - rect.top;
+
+                    // Account for scroll position and zoom level
+                    const scrollX = window.scrollX || window.pageXOffset;
+                    const scrollY = window.scrollY || window.pageYOffset;
+                    const zoomLevel = window.devicePixelRatio;
+
+                    puck.style.top = `${scrollY + rect.top + offsetY}px`;
+                    puck.style.left = `${scrollX + rect.left + offsetX}px`;
+                    document.body.appendChild(puck);
+
+                    setTimeout(() => {
+                        const randomX = Math.floor(Math.random() * 400) - 200;
+                        const randomY = Math.floor(Math.random() * 400) - 200;
+                        puck.style.transform = `translate(${randomX}px, ${randomY}px) scale(0.5)`;
+                        puck.style.opacity = '0';
+                    }, 100);
+
+                    setTimeout(() => {
+                        document.body.removeChild(puck);
+                    }, 1100);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        });
+    });
+});
+        </script>
+
+
+
+</body>
+
+</html>

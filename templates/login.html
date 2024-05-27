@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <style>
+        html, body {
+            height: 100%; /* Set html and body height to fill the entire viewport */
+            margin: 0; /* Remove default margin */
+            padding: 50px 0; /* Add padding to the top */
+            display: flex; /* Use flexbox */
+        }
+
+        body {
+            background-image: url('../static/assets/img/background.jpg');
+            background-repeat: no-repeat;
+            background-size: cover; /* Cover the entire background while maintaining aspect ratio */
+            background-position: center;
+            color: white;
+            width: 100%; /* Ensure body takes up entire width */
+        }
+
+        .card {
+            background-color: rgba(0, 0, 0, 0.5); /* Set the background color with transparency */
+            color: white; /* Set text color to white */
+            border: none; /* Remove border */
+            border-radius: 8px; /* Add border-radius */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* Add box shadow */
+        }
+
+        .card-header {
+            background-color: rgba(0, 0, 0, 0.5); /* Set the background color with transparency */
+            color: white; /* Set text color to white */
+            border-bottom: none; /* Remove bottom border */
+            border-top-left-radius: 8px; /* Add border radius to top left */
+            border-top-right-radius: 8px; /* Add border radius to top right */
+        }
+
+        .login-container {
+            text-align: center;
+            padding: 20px; /* Add padding */
+            border-bottom-left-radius: 8px; /* Add border radius to bottom left */
+            border-bottom-right-radius: 8px; /* Add border radius to bottom right */
+        }
+
+        .login-container h4 {
+            margin-bottom: 20px;
+            color: #fff; /* Set text color to white */
+        }
+
+        .login-container input[type="text"],
+        .login-container input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px; /* Adjust margin bottom for input fields */
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        .login-container input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            margin-top: 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .login-container input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+        .login-container p {
+            margin-bottom: 10px; /* Adjust margin bottom for paragraphs */
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header bg-dark text-white">
+                    <h4 class="mb-0">Login</h4>
+                </div>
+
+                <div class="login-container">
+                    <h4>Welcome Back!</h4>
+                    <form action="/login" method="post">
+                        <div class="mb-3">
+                            <input type="text" class="form-control" id="username" name="username" placeholder="Username" required>
+                        </div>
+                        <div class="mb-3">
+                            <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
+                        </div>
+                        <div class="mb-3">
+                            <button type="submit" class="btn btn-dark">Login</button>
+                        </div>
+                        <div class="mb-3">
+                            <p>Don't have an account? <a href="{{ url_for('signup') }}">Sign up here!</a></p>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- Custom JS -->
+<script src="js/scripts.js"></script>
+
+</body>
+</html>
